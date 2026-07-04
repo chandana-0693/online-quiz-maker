@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="QuizVerse - Premium Online Quiz Maker. Create, share, and take quizzes with instant score feedback and analytics.">
+    <title>QuizVerse | Premium Online Quiz Maker & Player</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" id="nav-logo-btn">
+                <div class="logo-icon">
+                    <i data-lucide="brain-circuit"></i>
+                </div>
+                <span>QuizVerse</span>
+            </a>
+            
+            <nav class="nav-links">
+                <button class="nav-link active" id="nav-home-btn" data-view="home-view">
+                    <i data-lucide="home"></i> <span>Home</span>
+                </button>
+                <button class="nav-link" id="nav-browse-btn" data-view="browse-view">
+                    <i data-lucide="compass"></i> <span>Explore</span>
+                </button>
+                <button class="nav-link" id="nav-create-btn" data-view="create-view">
+                    <i data-lucide="plus-circle"></i> <span>Create Quiz</span>
+                </button>
+                <button class="nav-link hidden" id="nav-profile-btn" data-view="profile-view">
+                    <i data-lucide="user"></i> <span>Dashboard</span>
+                </button>
+            </nav>
+
+            <div class="nav-auth" id="nav-auth-container">
+                <!-- Dynamically populated login/user menu -->
+                <button class="btn btn-primary" id="header-login-btn">
+                    <i data-lucide="log-in"></i> Sign In
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main View Container -->
+    <main class="main-content">
+
+        <!-- 1. HOME VIEW -->
+        <section id="home-view" class="view">
+            <!-- Hero Section -->
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="badge-hero">
+                        <i data-lucide="sparkles"></i> The Ultimate Quiz Playground
+                    </div>
+                    <h1>Create & Solve <span class="text-gradient">Interactive Quizzes</span></h1>
+                    <p class="hero-subtitle">
+                        Build customized quizzes, challenge your friends, and track your performance with instant detailed score analytics. Level up your knowledge!
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary btn-lg" id="hero-explore-btn">
+                            <i data-lucide="play-circle"></i> Take a Quiz
+                        </button>
+                        <button class="btn btn-outline btn-lg" id="hero-create-btn">
+                            <i data-lucide="plus"></i> Design a Quiz
+                        </button>
+                    </div>
+                </div>
+                <!-- Interactive Stats Board -->
+                <div class="hero-stats-board glass">
+                    <div class="stat-card">
+                        <span class="stat-num" id="stat-quizzes-taken">248</span>
+                        <span class="stat-label">Quizzes Completed</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-num" id="stat-quizzes-created">42</span>
+                        <span class="stat-label">Community Quizzes</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-num" id="stat-active-users">15</span>
+                        <span class="stat-label">Active Brains</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic Categories Grid -->
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>Explore by <span class="text-gradient">Topics</span></h2>
+                    <p>Select a category to reveal its quizzes instantly.</p>
+                </div>
+                <div class="topics-grid" id="topics-grid-container">
+                    <!-- Topics will be dynamically inserted here -->
+                </div>
+            </div>
+
+            <!-- Topic Quizzes List (Toggles when Topic selected) -->
+            <div class="section-container hidden" id="topic-quizzes-section">
+                <div class="section-header flex-header">
+                    <div>
+                        <h2 id="selected-topic-title">Quizzes in Technology</h2>
+                        <p id="selected-topic-desc">Expand your coding and computer science knowledge.</p>
+                    </div>
+                    <button class="btn btn-sm btn-outline" id="clear-topic-filter-btn">
+                        <i data-lucide="x"></i> Clear Topic
+                    </button>
+                </div>
+                <div class="quizzes-grid" id="topic-quizzes-grid">
+                    <!-- Quizzes matching the topic will go here -->
+                </div>
+            </div>
+
+            <!-- Featured Quizzes -->
+            <div class="section-container">
+                <div class="section-header flex-header">
+                    <div>
+                        <h2>Featured <span class="text-gradient">Quizzes</span></h2>
+                        <p>Hand-picked quizzes challenging our top users.</p>
+                    </div>
+                    <button class="btn btn-link" id="home-view-all-quizzes-btn">
+                        View All <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+                <div class="quizzes-grid" id="featured-quizzes-grid">
+                    <!-- Featured quiz cards will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 2. BROWSE/EXPLORE VIEW -->
+        <section id="browse-view" class="view hidden">
+            <div class="page-header">
+                <h1>Explore <span class="text-gradient">Quizzes</span></h1>
+                <p>Discover quizzes created by users worldwide. Search, filter, and challenge yourself.</p>
+            </div>
+
+            <!-- Search & Filters Container -->
+            <div class="filters-container glass">
+                <div class="search-bar-wrapper">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input type="text" id="quiz-search-input" placeholder="Search quizzes by title, description or author...">
+                </div>
+                
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label for="filter-topic-select">Topic</label>
+                        <select id="filter-topic-select" class="form-input select-filter">
+                            <option value="all">All Topics</option>
+                            <!-- Topics populated via JS -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filter-difficulty-select">Difficulty</label>
+                        <select id="filter-difficulty-select" class="form-input select-filter">
+                            <option value="all">All Difficulties</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quizzes Grid -->
+            <div class="quizzes-grid" id="browse-quizzes-grid">
+                <!-- Rendered browse quiz cards -->
+            </div>
+            
+            <div class="empty-state hidden" id="browse-empty-state">
+                <div class="empty-state-icon">
+                    <i data-lucide="search-code"></i>
+                </div>
+                <h3>No quizzes found</h3>
+                <p>Try adjusting your search filters or create a new quiz yourself!</p>
+                <button class="btn btn-primary" id="empty-state-create-btn">
+                    <i data-lucide="plus-circle"></i> Create a Quiz
+                </button>
+            </div>
+        </section>
+
+
+        <!-- 3. CREATE QUIZ VIEW -->
+        <section id="create-view" class="view hidden">
+            <div class="page-header">
+                <h1>Design a <span class="text-gradient">Quiz</span></h1>
+                <p>Formulate challenging questions, supply answers, and build a quiz for the community.</p>
+            </div>
+
+            <div class="create-layout">
+                <!-- Create Form -->
+                <form id="create-quiz-form" class="create-form-panel glass">
+                    <div class="form-section-title">
+                        <i data-lucide="settings-2"></i> Quiz Settings
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group span-2">
+                            <label for="quiz-title-input" class="required-label">Quiz Title</label>
+                            <input type="text" id="quiz-title-input" class="form-input" placeholder="e.g. JavaScript Closures & Promises" required>
+                        </div>
+                        
+                        <div class="form-group span-2">
+                            <label for="quiz-desc-input">Description</label>
+                            <textarea id="quiz-desc-input" class="form-input" rows="2" placeholder="Describe what this quiz covers..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quiz-topic-input" class="required-label">Topic / Category</label>
+                            <select id="quiz-topic-input" class="form-input" required>
+                                <option value="" disabled selected>Select a Topic</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Science">Science</option>
+                                <option value="History">History</option>
+                                <option value="Geography">Geography</option>
+                                <option value="Pop Culture">Pop Culture</option>
+                                <option value="Literature">Literature</option>
+                                <option value="Other">Other (Custom)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group hidden" id="custom-topic-group">
+                            <label for="quiz-custom-topic-input" class="required-label">Custom Topic Name</label>
+                            <input type="text" id="quiz-custom-topic-input" class="form-input" placeholder="e.g., Space Exploration">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quiz-difficulty-input" class="required-label">Difficulty</label>
+                            <select id="quiz-difficulty-input" class="form-input" required>
+                                <option value="Easy">Easy</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="Hard">Hard</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quiz-duration-input" class="required-label">Duration (Minutes)</label>
+                            <input type="number" id="quiz-duration-input" class="form-input" min="1" max="120" value="10" required>
+                        </div>
+                    </div>
+
+                    <hr class="form-divider">
+
+                    <div class="form-section-header">
+                        <div class="form-section-title">
+                            <i data-lucide="help-circle"></i> Questions
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline" id="add-question-btn">
+                            <i data-lucide="plus"></i> Add Question
+                        </button>
+                    </div>
+
+                    <!-- Dynamic Questions Container -->
+                    <div id="questions-builder-container" class="questions-builder-list">
+                        <!-- Questions dynamically appended here -->
+                    </div>
+
+                    <div class="form-actions-footer">
+                        <button type="submit" class="btn btn-primary btn-lg" id="save-quiz-btn">
+                            <i data-lucide="save"></i> Publish Quiz
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Live Preview Sidebar -->
+                <div class="create-preview-sidebar">
+                    <div class="preview-sticky-card glass">
+                        <div class="preview-header">
+                            <i data-lucide="eye"></i> LIVE PREVIEW
+                        </div>
+                        
+                        <div class="quiz-card mock-preview-card">
+                            <div class="card-meta">
+                                <span class="card-tag topic-tag" id="preview-tag-topic">Technology</span>
+                                <span class="card-tag difficulty-tag tag-medium" id="preview-tag-difficulty">Medium</span>
+                            </div>
+                            <h3 class="card-title" id="preview-card-title">My Awesome Quiz</h3>
+                            <p class="card-desc" id="preview-card-desc">Provide a summary of what the quiz is about in the form on the left.</p>
+                            
+                            <div class="card-stats">
+                                <span class="stat-item"><i data-lucide="help-circle"></i> <span id="preview-card-qcount">1</span> Question</span>
+                                <span class="stat-item"><i data-lucide="clock"></i> <span id="preview-card-duration">10</span> mins</span>
+                            </div>
+                            
+                            <div class="card-footer">
+                                <div class="card-author">
+                                    <div class="author-avatar">Q</div>
+                                    <span>You (Creator)</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm btn-disabled" type="button" disabled>
+                                    Take Quiz
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="preview-tips">
+                            <h4>Design Tips:</h4>
+                            <ul>
+                                <li>Make sure your correct option corresponds to a valid answer.</li>
+                                <li>Add explanations for questions to help other users learn.</li>
+                                <li>Quizzes require at least 1 question to publish.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 4. QUIZ PLAYER / RUNNER VIEW -->
+        <section id="quiz-runner-view" class="view hidden">
+            <!-- Quiz Introduction / Lobby -->
+            <div class="quiz-lobby-card glass" id="quiz-lobby-container">
+                <div class="lobby-icon">
+                    <i data-lucide="brain"></i>
+                </div>
+                <div class="lobby-meta">
+                    <span class="card-tag topic-tag" id="lobby-topic">Science</span>
+                    <span class="card-tag difficulty-tag tag-hard" id="lobby-difficulty">Hard</span>
+                </div>
+                <h1 id="lobby-quiz-title">Organic Chemistry Core Principles</h1>
+                <p id="lobby-quiz-desc">Test your understanding of alkanes, functional groups, reactions, and spectroscopy basics.</p>
+                
+                <div class="lobby-details-grid">
+                    <div class="detail-item">
+                        <i data-lucide="list-checks"></i>
+                        <div>
+                            <span class="detail-title">Questions</span>
+                            <span class="detail-value" id="lobby-questions-count">12 Qs</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i data-lucide="timer"></i>
+                        <div>
+                            <span class="detail-title">Time Limit</span>
+                            <span class="detail-value" id="lobby-duration">15 Mins</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i data-lucide="award"></i>
+                        <div>
+                            <span class="detail-title">Points Gain</span>
+                            <span class="detail-value" id="lobby-points">120 XP</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i data-lucide="user-check"></i>
+                        <div>
+                            <span class="detail-title">Created By</span>
+                            <span class="detail-value" id="lobby-author">Dr. Sarah</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lobby-instructions">
+                    <h3>Quiz Rules:</h3>
+                    <ul>
+                        <li>Make sure to finish before the countdown timer expires.</li>
+                        <li>Each question has only one correct answer.</li>
+                        <li>You cannot go back to previous questions after submitting an answer.</li>
+                        <li>Immediate scoring and full question breakdown is provided upon completion.</li>
+                    </ul>
+                </div>
+
+                <div class="lobby-actions">
+                    <button class="btn btn-outline" id="lobby-cancel-btn">
+                        <i data-lucide="arrow-left"></i> Back to Explore
+                    </button>
+                    <button class="btn btn-primary btn-lg" id="lobby-start-btn">
+                        Start Quiz <i data-lucide="arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Running Panel -->
+            <div class="quiz-player-container hidden" id="quiz-player-container">
+                <!-- Status/Progress Bar -->
+                <div class="player-header glass">
+                    <div class="player-header-left">
+                        <span class="q-progress-text">Question <strong id="player-current-index">1</strong> of <span id="player-total-count">10</span></span>
+                        <div class="q-progress-bar-bg">
+                            <div class="q-progress-bar-fill" id="player-progress-bar" style="width: 10%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="player-header-right">
+                        <div class="timer-display glass-inset" id="player-timer-badge">
+                            <i data-lucide="clock" id="timer-icon"></i>
+                            <span id="player-timer">00:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Active Question Area -->
+                <div class="question-container glass">
+                    <div class="question-box">
+                        <h2 id="player-question-text">Loading question content...</h2>
+                    </div>
+
+                    <!-- Multiple Choice Options -->
+                    <div class="options-layout" id="player-options-container">
+                        <!-- Dynamic Options Buttons -->
+                    </div>
+                </div>
+
+                <!-- Footer Navigation -->
+                <div class="player-footer">
+                    <span class="subtle-alert-text hidden" id="player-warning-select">Please select an option to proceed.</span>
+                    <button class="btn btn-outline btn-lg hidden" id="player-quit-btn">Quit Quiz</button>
+                    <button class="btn btn-primary btn-lg" id="player-next-btn">
+                        <span>Next Question</span> <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 5. QUIZ RESULTS VIEW -->
+        <section id="results-view" class="view hidden">
+            <div class="page-header text-center">
+                <h1>Quiz <span class="text-gradient">Complete</span></h1>
+                <p>Let's review how you performed during this quiz challenge.</p>
+            </div>
+
+            <!-- Results Card -->
+            <div class="results-score-card glass">
+                <div class="results-score-layout">
+                    <!-- SVG Circular Progress -->
+                    <div class="svg-progress-wrapper">
+                        <svg class="progress-ring" width="200" height="200">
+                            <circle class="progress-ring-circle-bg" stroke="rgba(255, 255, 255, 0.05)" stroke-width="12" fill="transparent" r="84" cx="100" cy="100"/>
+                            <circle class="progress-ring-circle-fill" id="results-ring-fill" stroke="url(#results-gradient)" stroke-width="12" stroke-dasharray="527.7" stroke-dashoffset="527.7" stroke-linecap="round" fill="transparent" r="84" cx="100" cy="100"/>
+                            <!-- Gradient Definition -->
+                            <defs>
+                                <linearGradient id="results-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="var(--primary)"/>
+                                    <stop offset="100%" stop-color="var(--secondary)"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="svg-progress-text">
+                            <span id="results-percentage">80%</span>
+                            <small id="results-score-text">8 / 10 Correct</small>
+                        </div>
+                    </div>
+
+                    <!-- Score Stats Summary -->
+                    <div class="results-stats-panel">
+                        <div class="results-badge-unlocked" id="results-badge-card">
+                            <i data-lucide="award"></i>
+                            <div>
+                                <h4 id="results-badge-title">Quiz Master</h4>
+                                <p id="results-badge-desc">Unlocked for getting >80% score!</p>
+                            </div>
+                        </div>
+
+                        <div class="results-grid-stats">
+                            <div class="stat-mini glass-inset">
+                                <span class="stat-mini-label">Points Gained</span>
+                                <span class="stat-mini-val text-gradient" id="results-xp-gain">+120 XP</span>
+                            </div>
+                            <div class="stat-mini glass-inset">
+                                <span class="stat-mini-label">Time Spent</span>
+                                <span class="stat-mini-val" id="results-time-taken">02:15</span>
+                            </div>
+                            <div class="stat-mini glass-inset">
+                                <span class="stat-mini-label">Accuracy</span>
+                                <span class="stat-mini-val" id="results-accuracy">80%</span>
+                            </div>
+                            <div class="stat-mini glass-inset">
+                                <span class="stat-mini-label">Rank</span>
+                                <span class="stat-mini-val" id="results-rank">Apprentice</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-actions">
+                    <button class="btn btn-outline" id="results-retry-btn">
+                        <i data-lucide="rotate-ccw"></i> Try Again
+                    </button>
+                    <button class="btn btn-primary" id="results-browse-btn">
+                        Explore Other Quizzes <i data-lucide="arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Review Breakdown -->
+            <div class="section-container max-w-lg">
+                <div class="section-header">
+                    <h2>Review <span class="text-gradient">Correct Answers</span></h2>
+                    <p>Go through the questions to review explanations and verify correct selections.</p>
+                </div>
+
+                <div class="review-questions-list" id="results-review-container">
+                    <!-- Dynamic review questions list -->
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 6. DASHBOARD / USER PROFILE VIEW -->
+        <section id="profile-view" class="view hidden">
+            <!-- Profile Info Banner -->
+            <div class="profile-header-banner glass">
+                <div class="profile-avatar" id="profile-avatar-placeholder">U</div>
+                <div class="profile-info-details">
+                    <div class="profile-title-row">
+                        <h1 id="profile-username">User Profile</h1>
+                        <span class="user-level-badge" id="profile-level-badge">Level 2 Scholar</span>
+                    </div>
+                    <p class="profile-email" id="profile-email">email@example.com</p>
+                    
+                    <div class="profile-level-progress">
+                        <div class="progress-labels">
+                            <span id="profile-current-xp">1,200 XP</span>
+                            <span id="profile-next-level-xp">Level Up at 2,000 XP</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="profile-xp-bar-fill" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Overview Cards -->
+            <div class="profile-stats-grid">
+                <div class="profile-stat-card glass">
+                    <div class="stat-icon-wrapper theme-orange">
+                        <i data-lucide="play"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-val" id="profile-stat-taken">12</span>
+                        <span class="stat-label">Quizzes Taken</span>
+                    </div>
+                </div>
+                <div class="profile-stat-card glass">
+                    <div class="stat-icon-wrapper theme-green">
+                        <i data-lucide="file-plus"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-val" id="profile-stat-created">4</span>
+                        <span class="stat-label">Quizzes Created</span>
+                    </div>
+                </div>
+                <div class="profile-stat-card glass">
+                    <div class="stat-icon-wrapper theme-purple">
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-val" id="profile-stat-accuracy">78%</span>
+                        <span class="stat-label">Average Accuracy</span>
+                    </div>
+                </div>
+                <div class="profile-stat-card glass">
+                    <div class="stat-icon-wrapper theme-blue">
+                        <i data-lucide="star"></i>
+                    </div>
+                    <div class="stat-details">
+                        <span class="stat-val" id="profile-stat-xp">1200</span>
+                        <span class="stat-label">Total XP Earned</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabbed Panel (Taken History vs My Quizzes) -->
+            <div class="dashboard-tabs-container glass">
+                <div class="dashboard-tabs-header">
+                    <button class="dashboard-tab active" id="tab-history-btn">
+                        <i data-lucide="history"></i> Quiz History
+                    </button>
+                    <button class="dashboard-tab" id="tab-myquizzes-btn">
+                        <i data-lucide="folder-git-2"></i> Quizzes I Created
+                    </button>
+                </div>
+                
+                <div class="dashboard-tab-content">
+                    <!-- 1. Quiz History Content -->
+                    <div class="tab-pane" id="pane-history">
+                        <div class="table-responsive">
+                            <table class="dashboard-table">
+                                <thead>
+                                    <tr>
+                                        <th>Quiz Title</th>
+                                        <th>Topic</th>
+                                        <th>Score</th>
+                                        <th>Date</th>
+                                        <th>Time Taken</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-table-body">
+                                    <!-- Populated via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="empty-state hidden" id="history-empty-state">
+                            <i data-lucide="hourglass" class="empty-state-icon"></i>
+                            <h3>No history found</h3>
+                            <p>You haven't completed any quizzes yet. Start learning now!</p>
+                        </div>
+                    </div>
+
+                    <!-- 2. Quizzes Created Content -->
+                    <div class="tab-pane hidden" id="pane-myquizzes">
+                        <div class="table-responsive">
+                            <table class="dashboard-table">
+                                <thead>
+                                    <tr>
+                                        <th>Quiz Title</th>
+                                        <th>Topic</th>
+                                        <th>Difficulty</th>
+                                        <th>Questions</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="myquizzes-table-body">
+                                    <!-- Populated via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="empty-state hidden" id="myquizzes-empty-state">
+                            <i data-lucide="folder-plus" class="empty-state-icon"></i>
+                            <h3>No created quizzes</h3>
+                            <p>You haven't built any quizzes yet. Share your knowledge with the world!</p>
+                            <button class="btn btn-primary" id="dashboard-create-btn">
+                                <i data-lucide="plus-circle"></i> Create a Quiz
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-app">
+        <div class="footer-content">
+            <p>&copy; 2026 QuizVerse. Designed for maximum visual impact & learning. Built with HTML, Vanilla CSS & Vanilla JS.</p>
+        </div>
+    </footer>
+
+    <!-- AUTHENTICATION DIALOG (MODAL) -->
+    <div id="auth-modal" class="modal-overlay hidden">
+        <div class="modal-card glass">
+            <button class="modal-close-btn" id="auth-modal-close-btn">
+                <i data-lucide="x"></i>
+            </button>
+            
+            <div class="modal-tabs">
+                <button class="modal-tab-btn active" id="auth-tab-login">Login</button>
+                <button class="modal-tab-btn" id="auth-tab-register">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="modal-form">
+                <h3 class="modal-title">Welcome Back</h3>
+                <p class="modal-subtitle">Access your personalized quiz dashboards and save results.</p>
+                
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="you@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <div class="form-error-msg hidden" id="login-error-msg"></div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    Sign In
+                </button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="modal-form hidden">
+                <h3 class="modal-title">Create Account</h3>
+                <p class="modal-subtitle">Unlock customized quizzes, history logs, and level up with points.</p>
+                
+                <div class="form-group">
+                    <label for="register-username">Username</label>
+                    <input type="text" id="register-username" class="form-input" placeholder="QuizMaster123" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-email">Email Address</label>
+                    <input type="email" id="register-email" class="form-input" placeholder="you@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" class="form-input" minlength="6" placeholder="At least 6 characters" required>
+                </div>
+
+                <div class="form-error-msg hidden" id="register-error-msg"></div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    Create Account
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script File -->
+    <script src="app.js"></script>
+</body>
+</html>
